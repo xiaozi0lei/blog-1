@@ -32,6 +32,8 @@
         <!-- 在properties中统一控制依赖包的版本，更清晰-->
         <spring-cloud.version>Edgware.SR1</spring-cloud.version>
         <docker.image.prefix>blog</docker.image.prefix>
+		<thymeleaf.version>3.0.6.RELEASE</thymeleaf.version>
+		<thymeleaf-layout-dialect.version>2.2.2</thymeleaf-layout-dialect.version>
 	</properties>
 
 	<dependencies>

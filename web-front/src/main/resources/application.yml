@@ -1,0 +1,26 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: front
+
+  session:
+    store-type: none
+#    store-type: redis
+  profiles:
+#    active: prod
+    active: dev
+
+  mvc:
+    favicon:
+      enabled: false
+
+  redis:
+    host: 192.168.155.15
+    port: 6379
+    database: 10
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://eureka-server:8761/eureka/
