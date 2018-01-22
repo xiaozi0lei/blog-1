@@ -2,7 +2,10 @@
 
 spring cloud 开始一个 blog 项目
 
-整体采用 Spring Cloud 框架，包含以下技术栈：
+## 项目管理通过 Maven 来进行项目管理
+* 采用 Maven 的聚合和继承功能
+
+## 整体采用 Spring Cloud 框架，包含以下技术栈：
 * Eureka - 服务注册与发现
 * Zuul - Api 网关
 * Hystrix - 监控数据
