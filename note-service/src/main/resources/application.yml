@@ -1,8 +1,8 @@
 server:
-  port: 8763
+  port: 8764
 spring:
   application:
-    name: user
+    name: note
   datasource:
     url: jdbc:mysql://192.168.154.219:3306/ying_note?characterEncoding=UTF-8&useSSL=false
     username: yingnote
@@ -16,12 +16,12 @@ eureka:
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml
-  type-aliases-package: cn.sunguolei.blog.userservice.domain
+  type-aliases-package: cn.sunguolei.blog.noteservice.domain
   configuration:
     map-underscore-to-camel-case: true
 
 logging:
   level:
-    cn.sunguolei.blog.userservice: debug
+    cn.sunguolei.blog.noteservice: debug
     com.netflix.feign: debug
 #    com.netflix: debug

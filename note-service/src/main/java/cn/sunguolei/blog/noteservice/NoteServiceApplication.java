@@ -1,16 +1,14 @@
-package cn.sunguolei.blog.webfront;
+package cn.sunguolei.blog.noteservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.netflix.feign.EnableFeignClients;
 
-@EnableFeignClients
 @EnableDiscoveryClient
 @SpringBootApplication
-public class WebFrontApplication {
+public class NoteServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(WebFrontApplication.class, args);
+		SpringApplication.run(NoteServiceApplication.class, args);
 	}
 }
