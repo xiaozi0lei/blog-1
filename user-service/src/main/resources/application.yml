@@ -3,11 +3,6 @@ server:
 spring:
   application:
     name: user
-  datasource:
-    url: jdbc:mysql://192.168.1.1:3306/test?characterEncoding=UTF-8&useSSL=false
-    username: test
-    password: test
-    driver-class-name: com.mysql.jdbc.Driver
 
 eureka:
   client:
@@ -24,4 +19,3 @@ logging:
   level:
     cn.sunguolei.blog.userservice: debug
     com.netflix.feign: debug
-#    com.netflix: debug

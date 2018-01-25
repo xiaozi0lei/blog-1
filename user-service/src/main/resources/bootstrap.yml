@@ -1,0 +1,9 @@
+spring:
+  cloud:
+    config:
+      uri: http://localhost:8762
+      name: datasource
+      #对应业务名称的profile
+      profile: dev
+      #当配置文件在git上时为分支名
+      label: master
