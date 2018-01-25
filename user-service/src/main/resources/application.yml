@@ -4,9 +4,9 @@ spring:
   application:
     name: user
   datasource:
-    url: jdbc:mysql://192.168.154.219:3306/ying_note?characterEncoding=UTF-8&useSSL=false
-    username: yingnote
-    password: Yingnote@2018
+    url: jdbc:mysql://192.168.1.1:3306/test?characterEncoding=UTF-8&useSSL=false
+    username: test
+    password: test
     driver-class-name: com.mysql.jdbc.Driver
 
 eureka:

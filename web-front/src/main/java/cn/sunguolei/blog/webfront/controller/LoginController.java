@@ -3,7 +3,6 @@ package cn.sunguolei.blog.webfront.controller;
 import cn.sunguolei.blog.webfront.service.LoginService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,8 +20,11 @@ import java.util.Map;
 public class LoginController {
     private final static Logger logger = LoggerFactory.getLogger(LoginController.class);
 
-    @Autowired
-    LoginService loginService;
+    private LoginService loginService;
+
+    public LoginController(LoginService loginService) {
+        this.loginService = loginService;
+    }
 
     @PostMapping("/signin")
     public String login(HttpServletResponse response, @RequestParam("username") String username, @RequestParam("password") String password) {
@@ -52,23 +54,6 @@ public class LoginController {
         Cookie[] cookies = request.getCookies();
 
         return testMethod("testUser", cookies, model);
-
-//        if (null != cookies) {
-//            for (Cookie cookie : cookies) {
-//                if (cookie.getName().equals("token")) {
-//                    token = cookie.getValue();
-//                    break;
-//                }
-//            }
-//
-//            if (null != token) {
-//                token = "Bearer " + token;
-//                String hello = loginService.testUser(token);
-//                model.addAttribute("hello", hello);
-//                return "test";
-//            }
-//        }
-//        return "redirect:/login";
     }
 
     @GetMapping("/testNote")
@@ -78,7 +63,7 @@ public class LoginController {
         return testMethod("testNote", cookies, model);
     }
 
-    String testMethod(String methodName, Cookie[] cookies, Model model) {
+    private String testMethod(String methodName, Cookie[] cookies, Model model) {
         String token = null;
 
         if (null != cookies) {
@@ -95,11 +80,7 @@ public class LoginController {
                 String hello = null;
                 try {
                     hello = (String) clazz.getDeclaredMethod(methodName, String.class).invoke(loginService, token);
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                } catch (InvocationTargetException e) {
-                    e.printStackTrace();
-                } catch (NoSuchMethodException e) {
+                } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
                     e.printStackTrace();
                 }
                 model.addAttribute("hello", hello);

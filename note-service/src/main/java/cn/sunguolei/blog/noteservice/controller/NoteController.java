@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class NoteController {
 
-    @GetMapping("/test")
-    public String test1() {
+    @GetMapping("/index")
+    public String index() {
         return "note test";
     }
 }
