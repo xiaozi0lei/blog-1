@@ -102,13 +102,12 @@
             </ul>-->
             <!--登录按钮-->
             <ul class="nav navbar-nav navbar-right">
-                <li th:if="!${#httpServletRequest.remoteUser}">
-                    <a class="btn btn-warning" th:href="@{/login}">登录</a>
+                <li id="login">
+                    <a class="btn btn-warning" th:href="@{/toLoginPage}">登录</a>
                 </li>
-                <li th:if="${#httpServletRequest.remoteUser}" class="dropdown">
+                <li class="dropdown" id="userDomain" style="display: none">
                     <a href="#" class="btn btn-success" data-toggle="dropdown">
-                        <span style="color: white;"
-                              th:text="${session.SPRING_SECURITY_CONTEXT.authentication.principal.username}">
+                        <span id="username" style="color: white;">用户名
                         </span>
                         <span class="caret"></span>
                     </a>

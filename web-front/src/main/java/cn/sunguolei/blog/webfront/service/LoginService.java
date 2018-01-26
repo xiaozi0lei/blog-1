@@ -15,9 +15,7 @@ public interface LoginService {
     @PostMapping(value = "/login", consumes = MediaType.APPLICATION_JSON_VALUE)
     String loginTest(@RequestBody Map<String, String> map);
 
-    @GetMapping(value = "/user/test", consumes = MediaType.APPLICATION_JSON_VALUE)
-    String testUser(@RequestHeader("Authorization") String token);
+    @GetMapping(value = "/getUserIdentity", consumes = MediaType.APPLICATION_JSON_VALUE)
+    Map<String, String> getUserIdentity(@RequestHeader("Authorization") String token);
 
-    @GetMapping(value = "/note/test", consumes = MediaType.APPLICATION_JSON_VALUE)
-    String testNote(@RequestHeader("Authorization") String token);
 }

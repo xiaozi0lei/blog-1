@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -26,8 +27,9 @@ public class LoginController {
         this.loginService = loginService;
     }
 
-    @PostMapping("/signin")
-    public String login(HttpServletResponse response, @RequestParam("username") String username, @RequestParam("password") String password) {
+    @PostMapping("/login")
+    public String login(HttpServletResponse response, @RequestParam("username") String username,
+                        @RequestParam("password") String password, Model model) {
         logger.debug("username is {}, password is {}", username, password);
         Map<String, String> map = new HashMap<>();
         map.put("username", username);
@@ -45,15 +47,38 @@ public class LoginController {
         tokenCookie.setPath("/");
         response.addCookie(tokenCookie);
 
+        model.addAttribute("username", username);
+
         return "index";
     }
 
-    @GetMapping("/testUser")
-    public String testUser(HttpServletRequest request, Model model) {
+    @GetMapping("/getUserIdentity")
+    @ResponseBody
+    public Map<String, String> getUserIdentity(HttpServletRequest request) {
 
+        Map<String, String> userInfoMap = new HashMap<>();
         Cookie[] cookies = request.getCookies();
+        String token = null;
 
-        return testMethod("testUser", cookies, model);
+        if (null != cookies) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("token")) {
+                    token = cookie.getValue();
+                    break;
+                }
+            }
+
+            if (null != token) {
+                token = "Bearer " + token;
+
+                Map<String, String> hello;
+                hello = loginService.getUserIdentity(token);
+                return hello;
+            }
+        }
+        userInfoMap.put("isLogin", "false");
+
+        return userInfoMap;
     }
 
     @GetMapping("/testNote")
@@ -89,5 +114,4 @@ public class LoginController {
         }
         return "redirect:/login";
     }
-
 }
