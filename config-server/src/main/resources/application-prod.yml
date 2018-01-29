@@ -5,4 +5,6 @@ spring:
     config:
       server:
         native:
-          search-locations: classpath:/home/work/www/spring-cloud/
+          search-locations: file:/home/work/www/spring-cloud/data
+  profiles:
+    active: native
