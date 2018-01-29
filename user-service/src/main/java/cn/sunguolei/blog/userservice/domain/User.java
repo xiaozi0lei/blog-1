@@ -1,11 +1,11 @@
 package cn.sunguolei.blog.userservice.domain;
 
 public class User {
-    private long id;
+    private int id;
     private String username;
     private String password;
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 

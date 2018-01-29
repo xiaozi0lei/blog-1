@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: config
+  cloud:
+    config:
+      server:
+        git:
+          uri: http://gitlab.dev.daikuan.com/guolei/spring-cloud-config.git
+          search-paths: datasource
+          default-label: master
+
+logging:
+  level:
+    org.springframework.cloud: debug

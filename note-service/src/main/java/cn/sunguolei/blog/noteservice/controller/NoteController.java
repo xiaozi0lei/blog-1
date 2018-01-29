@@ -20,14 +20,13 @@ public class NoteController {
     }
 
     @GetMapping("/index")
-    public List<Note> index() {
-        return noteService.index();
+    public List<Note> index(@RequestBody int userId) {
+        return noteService.index(userId);
     }
 
     @PostMapping("/create")
     public int create(@RequestBody Note note) {
 
-        logger.debug("helo, I am waiting for breakpoint");
         return noteService.create(note);
     }
 

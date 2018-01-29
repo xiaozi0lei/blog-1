@@ -13,7 +13,7 @@
         <id property="userId" column="user_id"/>
         <id property="type" column="type"/>
     </resultMap>
-    <select id="index" resultMap="NoteMap">
+    <select id="index" resultMap="NoteMap" parameterType="int">
         SELECT *
         FROM t_note
         WHERE user_id = #{id}

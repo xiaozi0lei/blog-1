@@ -6,15 +6,28 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestHeader;
 
-//@FeignClient("zuul")
-@FeignClient("note")
+import java.util.List;
+
+@FeignClient("zuul")
 public interface NoteService {
-//    @GetMapping(value = "/note/index", consumes = MediaType.APPLICATION_JSON_VALUE)
-    @GetMapping(value = "/index", consumes = MediaType.APPLICATION_JSON_VALUE)
-    String index();
+    /**
+     * 笔记列表页
+     *
+     * @param token  用户的 token
+     * @param userId 用户 ID
+     * @return 返回查到的笔记列表
+     */
+    @GetMapping(value = "/note/index", consumes = MediaType.APPLICATION_JSON_VALUE)
+    List<Note> index(@RequestHeader("Authorization") String token, int userId);
 
-    @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE)
-    int create(@RequestBody Note note);
+    /**
+     * 创建笔记
+     *
+     * @param note 要创建的笔记
+     * @return 创建成功返回 1，失败返回 0
+     */
+    @PostMapping(value = "/note/create", consumes = MediaType.APPLICATION_JSON_VALUE)
+    int create(@RequestHeader("Authorization") String token, Note note);
 }

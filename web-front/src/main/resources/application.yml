@@ -4,9 +4,6 @@ spring:
   application:
     name: front
 
-  session:
-    store-type: none
-#    store-type: redis
   profiles:
 #    active: prod
     active: dev
@@ -15,21 +12,10 @@ spring:
     favicon:
       enabled: false
 
-  redis:
-    host: 192.168.155.15
-    port: 6379
-    database: 10
-
 feign:
   httpclient:
     enabled: true
 
-#eureka:
-#  client:
-#    serviceUrl:
-#      defaultZone: http://eureka-server:8761/eureka/
-
 logging:
   level:
     cn.sunguolei.blog.webfront: debug
-#    com.netflix: debug

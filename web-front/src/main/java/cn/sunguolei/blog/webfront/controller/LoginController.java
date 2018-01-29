@@ -1,10 +1,10 @@
 package cn.sunguolei.blog.webfront.controller;
 
 import cn.sunguolei.blog.webfront.service.LoginService;
+import cn.sunguolei.blog.webfront.utils.UserUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,95 +22,50 @@ public class LoginController {
 
     private LoginService loginService;
 
+    // 注入 loginService
     public LoginController(LoginService loginService) {
         this.loginService = loginService;
     }
 
+    /**
+     * 用户登录
+     *
+     * @param response 设置 cookie
+     * @param username 提交的表单中的 username
+     * @param password 提交的表单中的 password
+     * @return 返回页面模板
+     */
     @PostMapping("/login")
     public String login(HttpServletResponse response, @RequestParam("username") String username,
-                        @RequestParam("password") String password, Model model) {
-        logger.debug("username is {}, password is {}", username, password);
+                        @RequestParam("password") String password) {
+
+        // map 存放用户名和密码
         Map<String, String> map = new HashMap<>();
         map.put("username", username);
         map.put("password", password);
 
-        String token = loginService.loginTest(map).trim();
-        final String HEADER_STRING = "Authorization";
-        final String TOKEN_PREFIX = "Bearer ";
-        response.addHeader(HEADER_STRING, TOKEN_PREFIX + token);
+        // 验证用户名密码，同时获取用户 token
+        String token = loginService.login(map).trim();
 
-        logger.debug(token);
-
+        // token 存放到 cookie 中，并设置到期时间为 30 天
         Cookie tokenCookie = new Cookie("token", token);
         tokenCookie.setMaxAge(30 * 24 * 60 * 60);
         tokenCookie.setPath("/");
         response.addCookie(tokenCookie);
 
-        model.addAttribute("username", username);
-
         return "index";
     }
 
+    /**
+     * 获取用户相关信息
+     *
+     * @param request http 请求
+     * @return 返回用户是否登录及用户相关信息的 map
+     */
     @GetMapping("/getUserIdentity")
     @ResponseBody
     public Map<String, String> getUserIdentity(HttpServletRequest request) {
-
-        Map<String, String> userInfoMap = new HashMap<>();
-        Cookie[] cookies = request.getCookies();
-        String token = null;
-
-        if (null != cookies) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("token")) {
-                    token = cookie.getValue();
-                    break;
-                }
-            }
-
-            if (null != token) {
-                token = "Bearer " + token;
-
-                Map<String, String> hello;
-                hello = loginService.getUserIdentity(token);
-                return hello;
-            }
-        }
-        userInfoMap.put("isLogin", "false");
-
-        return userInfoMap;
+        return UserUtil.getUserIdentity(request, loginService);
     }
 
-    @GetMapping("/testNote")
-    public String testNote(HttpServletRequest request, Model model) {
-        Cookie[] cookies = request.getCookies();
-
-        return testMethod("testNote", cookies, model);
-    }
-
-    private String testMethod(String methodName, Cookie[] cookies, Model model) {
-        String token = null;
-
-        if (null != cookies) {
-            for (Cookie cookie : cookies) {
-                if (cookie.getName().equals("token")) {
-                    token = cookie.getValue();
-                    break;
-                }
-            }
-
-            if (null != token) {
-                token = "Bearer " + token;
-                Class clazz = loginService.getClass();
-                String hello = null;
-                try {
-                    hello = (String) clazz.getDeclaredMethod(methodName, String.class).invoke(loginService, token);
-                } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-                    e.printStackTrace();
-                }
-                model.addAttribute("hello", hello);
-                return "test";
-            }
-        }
-        return "redirect:/login";
-    }
 }

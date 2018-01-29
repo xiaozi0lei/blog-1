@@ -1,6 +1,6 @@
-package cn.sunguolei.blog.servicezuul.domain;
+package cn.sunguolei.blog.webfront.domian;
 
-public class ApplicationUser {
+public class User {
     private int id;
     private String username;
     private String password;

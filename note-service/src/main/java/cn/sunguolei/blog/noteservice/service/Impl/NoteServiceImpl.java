@@ -17,8 +17,8 @@ public class NoteServiceImpl implements NoteService {
     }
 
     @Override
-    public List<Note> index() {
-        return noteMapper.index();
+    public List<Note> index(int userId) {
+        return noteMapper.index(userId);
     }
 
     @Override
